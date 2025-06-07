@@ -1,3 +1,9 @@
+# Project folders
+dataset
+models
+.python-version
+wandb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
