@@ -137,12 +137,6 @@ python llama_finetune.py --model neurotechnology/Lt-Llama-2-7b-instruct-hf --out
 
 ## ChatGPT
 
-Here’s the Markdown section for **ChatGPT**, based on the provided script:
-
----
-
-## ChatGPT
-
 We used OpenAI's ChatGPT models to classify Lithuanian text into three categories: `neapykanta` (hate), `įžeidus` (offensive), and `neutralus` (neutral). The classification is guided using a carefully crafted system prompt that defines each category with examples in Lithuanian.
 
 ### Features
