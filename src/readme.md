@@ -77,8 +77,145 @@ python src/lilat-bert/litlat_finetune.py
 
 ## RWKV
 
-## Lithuanian Llama 2
+Here is the Markdown section you can add for the **Large Language Models**:
+
+---
+
+## Large Language Models
+
+We used large language models (LLMs) to classify Lithuanian media comments into three categories: `hate`, `offensive`, and `neutral`. These models include fine-tuned versions of `Gemma-2B` and `Lt-Llama-2-7B`.
+
+### Inference
+
+1. Install dependencies:
+2. Navigate to the `src/llama` directory
+3. Prepare a dataset CSV file with the following structure:
+
+   ```csv
+   data,labels
+   "Example text","hate"
+   ```
+
+4. Download a GGUF model file, e.g.:
+   [Lt-Llama-13b-q8.gguf](https://www.jottacloud.com/s/1580a97507a3efe4c14b0d3cede3caf3584/list/)
+
+5. Run the inference script:
+To classify new examples using a local LLM, run:
+
+```bash
+python llama_test.py --model_path ./Lt-Llama-13b-q8.gguf --csv_path ./data.csv --output_path ./results.txt
+```
+
+### Fine-Tuning the Model
+
+#### Dataset Preparation for Fine-Tuning
+
+Use `llama_dataset.py` to convert data into instruction-style prompt format:
+
+```bash
+python llama_dataset.py
+```
+
+This will generate:
+
+* `train.jsonl` – training data
+* `validation.jsonl` – validation data
+
+#### Running Fine-Tuning
+
+Models to choose from for fine-tuning:
+
+* `google/gemma-2b-it` (requires ~17GB VRAM)
+* `neurotechnology/Lt-Llama-2-7b-instruct-hf` (requires ~19GB VRAM)
+
+Run the fine-tuning script:
+
+```bash
+python llama_finetune.py --model google/gemma-2b-it --output_dir ./gemma-2b-finetuned
+python llama_finetune.py --model neurotechnology/Lt-Llama-2-7b-instruct-hf --output_dir ./llama-2-7b-finetuned
+```
 
 ## ChatGPT
 
+Here’s the Markdown section for **ChatGPT**, based on the provided script:
+
+---
+
+## ChatGPT
+
+We used OpenAI's ChatGPT models to classify Lithuanian text into three categories: `neapykanta` (hate), `įžeidus` (offensive), and `neutralus` (neutral). The classification is guided using a carefully crafted system prompt that defines each category with examples in Lithuanian.
+
+### Features
+
+* Supports models like `gpt-4o`, `gpt-4`, and `gpt-3.5-turbo`.
+* Uses OpenAI's API via the `openai` Python library.
+
+### System Prompt (Lithuanian)
+
+The system prompt instructs the model to return only one category label
+
+### Example Usage
+
+Before running, export your OpenAI API key:
+
+```bash
+export OPENAI_API_KEY=your_api_key_here
+```
+
+Then run the classification script:
+
+```bash
+python chatgpt_test.py --csv_path ./data.csv --model gpt-4o
+```
+
+* `--csv_path`: path to the CSV file with `data` and `labels` columns.
+* `--model`: OpenAI model name (e.g., `gpt-4o`, `gpt-4`, `gpt-3.5-turbo`).
+
+### Output
+
+The script generates a results file (`results-{model}.csv`)
+
 ## Other deep learning models
+
+In addition to transformer-based and LLM models, we developed and tested several classic deep learning architectures for Lithuanian hate speech classification. These models use FastText word embeddings and are trained on the [CARD-AI/Lithuanian-hatespeech](https://huggingface.co/datasets/CARD-AI/Lithuanian-hatespeech) dataset. The goal is to classify text into `hate`, `offensive`, or `neutral`.
+
+### Models
+
+#### 1. CNN (Convolutional Neural Network)
+
+* Incorporates 1D convolutional layers followed by global max pooling.
+* Embedding layer is initialized with FastText Lithuanian vectors (`facebook/fasttext-lt-vectors`).
+* Includes dropout for regularization.
+* Effective in capturing local n-gram features.
+
+#### 2. LSTM (Long Short-Term Memory)
+
+* Sequential model using stacked LSTM layers to capture long-range dependencies in text.
+* Pre-trained FastText embeddings are used as input.
+* Dropout is applied for regularization.
+
+#### 3. BiLSTM (Bidirectional LSTM)
+
+* Extension of the LSTM model that processes sequences in both forward and backward directions.
+* Provides better context awareness from both ends of the text.
+
+#### 4. CNN Advanced
+
+* Enhanced CNN model with:
+
+  * L2 regularization
+  * Learning rate scheduler
+  * 5-fold stratified cross-validation
+* Designed for robustness with smaller or imbalanced datasets.
+
+### Running the Models
+
+All model scripts are located in the `src/deep-learning/` directory. To run a model:
+
+```bash
+cd src/deep-learning/
+python cnn.py        # For basic CNN
+python lstm.py       # For LSTM
+python bilstm.py     # For BiLSTM
+python cnn_adv.py    # For advanced CNN
+```

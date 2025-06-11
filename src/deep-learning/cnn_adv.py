@@ -3,8 +3,9 @@ import numpy as np
 import fasttext
 from datasets import load_dataset
 from huggingface_hub import hf_hub_download
-from keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
+from sklearn.metrics import precision_score, f1_score, recall_score
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import StratifiedKFold, train_test_split
 from keras.models import Sequential
@@ -104,6 +105,12 @@ for fold, (train_index, val_index) in enumerate(skf.split(X_train, y_train)):
 loss, accuracy = model.evaluate(X_test, y_test)
 print(f"Test Loss: {loss}, Test Accuracy: {accuracy}")
 
-"""
-Test Loss: 0.8471134305000305, Test Accuracy: 0.6348684430122375
-"""
+# calculate F1 weighted score
+y_pred = model.predict(X_test)
+y_pred_classes = np.argmax(y_pred, axis=1)
+precision = precision_score(y_test, y_pred_classes, average='weighted', zero_division=0)
+recall = recall_score(y_test, y_pred_classes, average='weighted', zero_division=0)
+f1 = f1_score(y_test, y_pred_classes, average='weighted')
+
+print(f"Precision: {precision}, Recall: {recall}")
+print(f"f1 score: {f1}")

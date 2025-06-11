@@ -1,6 +1,5 @@
 import fasttext
 import numpy as np
-import pandas as pd
 from datasets import load_dataset
 from huggingface_hub import hf_hub_download
 from keras.src.callbacks import EarlyStopping
@@ -8,10 +7,11 @@ from keras.src.layers import LSTM, Bidirectional
 from sklearn.metrics import precision_score, recall_score
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv1D, GlobalMaxPooling1D, Dense, Embedding, Dropout
+from tensorflow.keras.layers import Dense, Embedding
 from tensorflow.keras.preprocessing.text import Tokenizer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import f1_score
 
 print("Loading data...")
 dataset = load_dataset("CARD-AI/Lithuanian-hatespeech")
@@ -95,6 +95,12 @@ model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, batch_siz
 loss, accuracy = model.evaluate(X_test, y_test)
 print(f"Test Loss: {loss}, Test Accuracy: {accuracy}")
 
-"""
-Test Loss: 0.7951130867004395, Test Accuracy: 0.6737938523292542
-"""
+# calculate F1 weighted score
+y_pred = model.predict(X_test)
+y_pred_classes = np.argmax(y_pred, axis=1)
+precision = precision_score(y_test, y_pred_classes, average='weighted', zero_division=0)
+recall = recall_score(y_test, y_pred_classes, average='weighted', zero_division=0)
+f1 = f1_score(y_test, y_pred_classes, average='weighted')
+
+print(f"Precision: {precision}, Recall: {recall}")
+print(f"f1 score: {f1}")
