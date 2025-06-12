@@ -63,6 +63,8 @@ python train/convert.py
 python train/train_from_lightning_classifier.py --train_file <path_to_train_csv> --test_file <path_to_test_csv> --model_path <path_to_converted_model> --tokenizer_file <path_to_vocab_file> --batch_size <int_batch_size> --num_classes <int_output_classes> --max_epochs <int_epochs> --output_dir <train_model_output_path>
 ```
 
+7. Run Inference with trained model. Sample notebook provided `sample_inference_script.ipynb`.
+
 ***Full list of arguments in training script.***
 
 | Argument Name | Argument Type | Argument Explanation | Default Value |

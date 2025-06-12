@@ -77,9 +77,29 @@ python src/lilat-bert/litlat_finetune.py
 
 ## RWKV
 
-Here is the Markdown section you can add for the **Large Language Models**:
+RWKV model was chosen because it combines the strengths of recurrent neural networks (RNNs) and transformers. In particular the RWKV 4 was used in this research. The model has various different multilingual architecture variations (`169M`, `430M`, `1B5`, `3B`, `7B`, `14B` parameters) that can be fine-tuned for sequence classification.
 
----
+### Running the scripts
+
+Download the desired model from [HuggingFace](https://huggingface.co/BlinkDL/rwkv-4-world/tree/main) and run the converter script
+
+```console
+python train/convert.py
+```
+
+Either manually prepare the dataset or use predefined script for dataset preparation using command below
+
+```console
+python train/data_process.py --corpus_file <path_to_csv_file> --tokenizer_file <path_to_vocab_file> --output_dir <path_to_data_save_dir> --train_ratio <float_number of train_size>
+```
+
+Run training script to fine-tune RWKV model for Sequence Classification
+
+```
+python train/train_from_lightning_classifier.py --train_file <path_to_train_csv> --test_file <path_to_test_csv> --model_path <path_to_converted_model> --tokenizer_file <path_to_vocab_file> --batch_size <int_batch_size> --num_classes <int_output_classes> --max_epochs <int_epochs> --output_dir <train_model_output_path>
+```
+
+For more detailed explanation check out `RWKV` folder.
 
 ## Large Language Models
 
