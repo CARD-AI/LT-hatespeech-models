@@ -27,7 +27,7 @@ RWKV is a type of NN architecture that combines the strengths of recurrent neura
 ```
 
 ## Usage intructions
-
+0. Rename `models_` dir to `models`
 1. Download the desired model from [HuggingFace](https://huggingface.co/BlinkDL/rwkv-4-world/tree/main)
 2. Modify paths in `train/convert.py` file
 

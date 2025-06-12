@@ -81,19 +81,21 @@ RWKV model was chosen because it combines the strengths of recurrent neural netw
 
 ### Running the scripts
 
-Download the desired model from [HuggingFace](https://huggingface.co/BlinkDL/rwkv-4-world/tree/main) and run the converter script
+1. Rename `RWKV/models_` to `RWKV/models`
+
+2. Download the desired model from [HuggingFace](https://huggingface.co/BlinkDL/rwkv-4-world/tree/main) and run the converter script
 
 ```
 python train/convert.py
 ```
 
-Either manually prepare the dataset or use predefined script for dataset preparation using command below
+3. Either manually prepare the dataset or use predefined script for dataset preparation using command below
 
 ```
 python train/data_process.py --corpus_file <path_to_csv_file> --tokenizer_file <path_to_vocab_file> --output_dir <path_to_data_save_dir> --train_ratio <float_number of train_size>
 ```
 
-Run training script to fine-tune RWKV model for Sequence Classification
+4. Run training script to fine-tune RWKV model for Sequence Classification
 
 ```
 python train/train_from_lightning_classifier.py --train_file <path_to_train_csv> --test_file <path_to_test_csv> --model_path <path_to_converted_model> --tokenizer_file <path_to_vocab_file> --batch_size <int_batch_size> --num_classes <int_output_classes> --max_epochs <int_epochs> --output_dir <train_model_output_path>
