@@ -83,13 +83,13 @@ RWKV model was chosen because it combines the strengths of recurrent neural netw
 
 Download the desired model from [HuggingFace](https://huggingface.co/BlinkDL/rwkv-4-world/tree/main) and run the converter script
 
-```console
+```
 python train/convert.py
 ```
 
 Either manually prepare the dataset or use predefined script for dataset preparation using command below
 
-```console
+```
 python train/data_process.py --corpus_file <path_to_csv_file> --tokenizer_file <path_to_vocab_file> --output_dir <path_to_data_save_dir> --train_ratio <float_number of train_size>
 ```
 

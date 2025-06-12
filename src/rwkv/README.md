@@ -39,7 +39,7 @@ RWKV is a type of NN architecture that combines the strengths of recurrent neura
 
 3. Convert the model using `convert.py` in `train` dir
 
-```console
+```
 python train/convert.py
 ```
 
@@ -51,7 +51,7 @@ python train/convert.py
 
     5.2 ***Optional***. Process your dataset `csv` file using `train/data_process.py`
 
-    ```console
+    ```
     python train/data_process.py --corpus_file <path_to_csv_file> --tokenizer_file <path_to_vocab_file> --output_dir <path_to_data_save_dir> --train_ratio <float_number of train_size>
     ```
 
@@ -59,7 +59,7 @@ python train/convert.py
 
 6. Train RWKV for squence classification model.
 
-```console
+```
 python train/train_from_lightning_classifier.py --train_file <path_to_train_csv> --test_file <path_to_test_csv> --model_path <path_to_converted_model> --tokenizer_file <path_to_vocab_file> --batch_size <int_batch_size> --num_classes <int_output_classes> --max_epochs <int_epochs> --output_dir <train_model_output_path>
 ```
 
